@@ -1,4 +1,4 @@
-#### Multi Modal Retrieval System
+# Multi Modal Retrieval System
 
 This project implements a multi-modal image retrieval system that takes a user query (in text
 describing an image) and returns the top-K matching images from a provided dataset. The
