@@ -70,8 +70,8 @@ class TextQueryProcessor:
             for word in query:
                 q.append(word)
             q = ' '.join(q)
-            vector_query = vectorizer.fit_transform([q]).toarray()
-            return vector_query
+            text_vector = vectorizer.fit_transform([q]).toarray()
+            return text_vector
         except Exception as e:
             print(f"Error in preprocessing_query: {e}")
             return None
