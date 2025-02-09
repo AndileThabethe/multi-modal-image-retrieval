@@ -65,3 +65,11 @@ class ImageProcessor:
                 collection.insert_one(document)
             except Exception as e:
                 print(f"Error storing image and feature in database: {e}")
+
+
+if __name__ == "__main__":
+    folder_path = 'src/data/images'
+    images = ImageProcessor.read_images_from_folder(folder_path)
+    features = ImageProcessor.extract_features(images)
+    ImageProcessor.store_features_in_db(images, features)
+    print("Done!")
