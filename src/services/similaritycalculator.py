@@ -4,13 +4,15 @@ from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from PIL import Image
-import io
 import base64
+from PIL import Image
+import io, base64
+import matplotlib.pyplot as plt
+
 
 vectorizer = TfidfVectorizer()
 
-query = "A family of elephants walking in the forest"
+query = "pigeon"
 text_features = text_processor.preprocessing_query(query)
 print(f"Text features shape: {text_features.shape}")
 
@@ -45,5 +47,14 @@ for neighbor in nearest_neighbors:
 
 nearest_neighbor_ids = [neighbor[0] for neighbor in nearest_neighbors]
 
+images = []
+for neighbor_id in nearest_neighbor_ids:
+    image = collection.find_one({"_id": neighbor_id})
+    image_data = image['image']
+    
+    img = Image.open(io.BytesIO(image_data))
+    plt.imshow(img)
+    plt.axis('off')  
+    plt.show()
 
-
+                                
