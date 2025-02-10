@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 vectorizer = TfidfVectorizer()
 
-query = "pigeon"
+query = "white woman in the gym"
 text_features = text_processor.preprocessing_query(query)
 print(f"Text features shape: {text_features.shape}")
 

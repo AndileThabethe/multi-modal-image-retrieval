@@ -5,6 +5,7 @@ import matplotlib.image as mpimg
 import string
 import nltk
 from nltk.corpus import stopwords
+from sentence_transformers import SentenceTransformer
 
 # Download necessary NLTK data (if not already downloaded)
 # nltk.download('stopwords')
@@ -70,7 +71,8 @@ class TextQueryProcessor:
             for word in query:
                 q.append(word)
             q = ' '.join(q)
-            text_vector = vectorizer.fit_transform([q]).toarray()
+            model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+            text_vector = model.encode([q])
             return text_vector
         except Exception as e:
             print(f"Error in preprocessing_query: {e}")
