@@ -60,7 +60,7 @@ Enhancements to cater for people with disabilities:
 
 ### Setup and Installation Instructions
 - install MongoDB, mongosh(optional)
-- install IDE that supports Python
+- install IDE that supports Python (e.g Visual Studio Code)
 
 ### How to Run The System
 - Run the offline.py file to process the images and store them in the MongoDB
