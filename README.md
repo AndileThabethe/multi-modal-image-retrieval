@@ -12,24 +12,24 @@ This architecture diagram illustrates a system for retrieving images based on a 
 
 Components:
 
-**User Interface**: This is where the user interacts with the system. It is a web page 
+1. **User Interface**: This is where the user interacts with the system. It is a web page 
    that allows text input and displays results.
    ** User Text Query**: The text query entered by the user, describing the image they are looking for.
-**Text Feature Extraction**: This component processes the user's text query and converts it into a 
+2. **Text Feature Extraction**: This component processes the user's text query and converts it into a 
    set of numerical features (a vector). The output is "Text features".
-**Search API**: This is the core component that receives the text features and uses them to search 
+3. **Search API**: This is the core component that receives the text features and uses them to search 
    the image database. It implements a similarity search algorithm.
-**Similarity Search**: This component compares the "Text features" from the query with "Image features" 
+4. **Similarity Search**: This component compares the "Text features" from the query with "Image features" 
     stored in the database to find the most similar images.
-**Image Features**: Numerical representations of the images, pre-calculated and stored in the database. 
-**Image Feature Extraction**: This component is responsible for processing the raw images (in offline.py as indicated) 
+5. **Image Features**: Numerical representations of the images, pre-calculated and stored in the database. 
+6. **Image Feature Extraction**: This component is responsible for processing the raw images (in offline.py as indicated) 
     and generating the "Image features" that are stored in the database.
-**MongoDB**: The database used to store the "Image features" and potentially other metadata about the images.
-**Images**: The actual image files. The diagram shows them as being accessed by the "Image Feature Extraction" component.
-**Retrieved Images**: The images that the system determines to be the most relevant to the user's query. These 
+7. **MongoDB**: The database used to store the "Image features" and potentially other metadata about the images.
+8. **Images**: The actual image files. The diagram shows them as being accessed by the "Image Feature Extraction" component.
+9. **Retrieved Images**: The images that the system determines to be the most relevant to the user's query. These 
     are returned to the user interface.
-**Kubernetes**: The system is deployed and orchestrated using Kubernetes, a container orchestration platform. 
-**Docker/Container Icons**: The containerized nature of the components.
+10. **Kubernetes**: The system is deployed and orchestrated using Kubernetes, a container orchestration platform. 
+11. **Docker/Container Icons**: The containerized nature of the components.
 
 Data Flow:
 
