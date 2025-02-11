@@ -16,7 +16,7 @@ Attributes:
     features (list): A list of features extracted from the images.
 """
 
-from services.imageprocessor import ImageProcessor as image_processor
+from services.image_feature_extractor import ImageProcessor as image_processor
 
 folder_path = 'src/data/images'
 images = image_processor.read_images_from_folder(folder_path)

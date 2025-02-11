@@ -1,5 +1,5 @@
-from imageprocessor import ImageProcessor as image_processor
-from textqueryprocessor import TextQueryProcessor as text_processor
+from image_feature_extractor import ImageProcessor as image_processor
+from text_feature_extractor import TextQueryProcessor as text_processor
 from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -9,12 +9,11 @@ from PIL import Image
 import io, base64
 import matplotlib.pyplot as plt
 
-
 vectorizer = TfidfVectorizer()
 
-query = "white woman in the gym"
+query = "a time piece on a table"
 text_features = text_processor.preprocessing_query(query)
-print(f"Text features shape: {text_features.shape}")
+print(f"Text features shape: {text_features.len}")
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["image_features_db"]
@@ -29,14 +28,11 @@ for image in image_collection:
 image_features = np.array(image_features)
 print(f"Image features shape: {image_features.shape}")
 
-if text_features.shape[1] < image_features.shape[1]:
-    padding = np.zeros((text_features.shape[0], image_features.shape[1] - text_features.shape[1]))
-    text_features = np.hstack((text_features, padding))
-elif image_features.shape[1] < text_features.shape[1]:
-    padding = np.zeros((image_features.shape[0], text_features.shape[1] - image_features.shape[1]))
-    image_features = np.hstack((image_features, padding))
+def cosine_sim(text1, text2):
+    tfidf = vectorizer.fit_transform([text1, text2])
+    return cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0]
 
-similarities = cosine_similarity(text_features, image_features)
+similarities = cosine_sim(text_features, image_features)
 
 K = 5
 nearest_neighbors_indices = np.argsort(similarities[0])[-K:][::-1]

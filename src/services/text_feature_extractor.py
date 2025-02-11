@@ -12,9 +12,27 @@ from sentence_transformers import SentenceTransformer
 # nltk.download('punkt')
 # nltk.download('punkt_tab')
 
-vectorizer = TfidfVectorizer(norm='l2')
+vectorizer = TfidfVectorizer()
 
 class TextQueryProcessor:
+    """
+    A class used to process text queries by performing various preprocessing steps such as removing punctuation,
+    removing whitespace, removing stopwords, tokenizing, and stemming.
+    Methods
+    -------
+    remove_punctuation(text)
+        Removes punctuation from the given text.
+    remove_whitespace(text)
+        Removes extra whitespace from the given text.
+    remove_stopwords(text)
+        Removes stopwords from the given text.
+    get_tokenized_list(doc)
+        Tokenizes the given document into a list of words.
+    word_stemmer(token_list)
+        Applies stemming to the given list of tokens.
+    preprocessing_query(query)
+        Performs a series of preprocessing steps on the given query and returns a TF-IDF vector.
+    """
     def remove_punctuation(text):
         try:
             return text.translate(str.maketrans('', '', string.punctuation))
@@ -67,13 +85,15 @@ class TextQueryProcessor:
             query = TextQueryProcessor.get_tokenized_list(query)
             query = TextQueryProcessor.remove_stopwords(query)
             query = TextQueryProcessor.word_stemmer(query)
-            q = []
-            for word in query:
-                q.append(word)
-            q = ' '.join(q)
-            model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-            text_vector = model.encode([q])
-            return text_vector
+            # q = []
+            # for word in query:
+            #     q.append(word)
+            # q = ' '.join(q)
+            # model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+            # text_vector = model.encode([q])
+            # vectorizer = TfidfVectorizer()
+            # text = vectorizer.fit_transform(query)
+            return query
         except Exception as e:
             print(f"Error in preprocessing_query: {e}")
             return None
