@@ -7,3 +7,11 @@ results.
 
 ### System Architecture Diagram
 ![MMRsystemarchitecture drawio](https://github.com/user-attachments/assets/5e35310d-6c3c-4614-ac2d-5196b3542239)
+
+### Setup and Installation Instructions
+
+### How to Run The System
+
+### How to Run Tests
+
+## Assumptions Made
