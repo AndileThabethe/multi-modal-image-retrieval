@@ -40,17 +40,16 @@ class TextQueryProcessor:
             print(f"Error in remove_punctuation: {e}")
             return text
     
-    def remove_whitespace(text):
-        try:
-            return " ".join(text.split())
-        except Exception as e:
-            print(f"Error in remove_whitespace: {e}")
-            return text
+    # def remove_whitespace(text):
+    #     try:
+    #         return " ".join(text.split())
+    #     except Exception as e:
+    #         print(f"Error in remove_whitespace: {e}")
+    #         return text
     
     def remove_stopwords(text):
         try:
             words_to_remove = stopwords.words('english')
-            cleaned_doc = []
             for word in text:
                 if word not in words_to_remove:
                     cleaned_doc.append(word)
@@ -59,32 +58,32 @@ class TextQueryProcessor:
             print(f"Error in remove_stopwords: {e}")
             return text
     
-    def get_tokenized_list(doc):
-        try:
-            return nltk.word_tokenize(doc)
-        except Exception as e:
-            print(f"Error in get_tokenized_list: {e}")
-            return []
+    # def get_tokenized_list(doc):
+    #     try:
+    #         return nltk.word_tokenize(doc)
+    #     except Exception as e:
+    #         print(f"Error in get_tokenized_list: {e}")
+    #         return []
     
-    def word_stemmer(token_list):
-        try:
-            stemmer = nltk.stem.PorterStemmer()
-            stemmed = []
-            for words in token_list:
-                stemmed.append(stemmer.stem(words))
-            return stemmed
-        except Exception as e:
-            print(f"Error in word_stemmer: {e}")
-            return token_list
+    # def word_stemmer(token_list):
+    #     try:
+    #         stemmer = nltk.stem.PorterStemmer()
+    #         stemmed = []
+    #         for words in token_list:
+    #             stemmed.append(stemmer.stem(words))
+    #         return stemmed
+    #     except Exception as e:
+    #         print(f"Error in word_stemmer: {e}")
+    #         return token_list
 
-    def preprocessing_query(query):
+    def preprocessing_text(query):
         try:
             query = query.lower()
             query = TextQueryProcessor.remove_punctuation(query)
-            query = TextQueryProcessor.remove_whitespace(query)
-            query = TextQueryProcessor.get_tokenized_list(query)
+            # query = TextQueryProcessor.remove_whitespace(query)
+            # query = TextQueryProcessor.get_tokenized_list(query)
             query = TextQueryProcessor.remove_stopwords(query)
-            query = TextQueryProcessor.word_stemmer(query)
+            # query = TextQueryProcessor.word_stemmer(query)
             # q = []
             # for word in query:
             #     q.append(word)
