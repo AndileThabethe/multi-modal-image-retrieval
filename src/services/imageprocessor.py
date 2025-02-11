@@ -3,15 +3,21 @@ from PIL import Image
 import numpy as np
 from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import Model
+from keras.applications.imagenet_utils import decode_predictions
 from pymongo import MongoClient
 import io
 
-## to do:
-# add image preprocessing for enhanced feature extraction
-
 class ImageProcessor:
     def read_images_from_folder(folder_path):
+        """
+        Reads images from the specified folder and returns them as a list of image objects.
+
+        Args:
+            folder_path (str): The path to the folder containing the images.
+
+        Returns:
+            list: A list of image objects read from the folder.
+        """
         print(f"Reading images from folder: {folder_path}")
         images = []
         try: 
@@ -21,6 +27,7 @@ class ImageProcessor:
                     try:  
                         img = Image.open(img_path)
                         images.append(img)
+                        print(img)
                     except Exception as e:
                         print(f"Error opening image {filename}: {e}")
         except FileNotFoundError:
@@ -29,24 +36,45 @@ class ImageProcessor:
             print(f"An error occurred: {e}")
         return images
 
-
     def extract_features(images):
+        """
+        Extracts features from a list of image objects using the ResNet50 model.
+
+        Args:
+            images (list): A list of image objects.
+
+        Returns:
+            np.ndarray: A numpy array of extracted features.
+        """
         print("Extracting features from images")
-        model = ResNet50(weights='imagenet', include_top=False, pooling='avg')
+        model = ResNet50(weights='imagenet')
         features = []
         for img in images:
             try:
                 img = img.resize((224, 224))
-                img_array = image.img_to_array(img)
-                img_array = np.expand_dims(img_array, axis=0)
-                img_array = preprocess_input(img_array)
-                feature = model.predict(img_array)
-                features.append(feature.flatten())
+                # img = image.load_img(img, target_size=(224, 224))
+                img = image.img_to_array(img)
+                img_arr = np.expand_dims(img.copy(), axis=0)
+                img_arr = preprocess_input(img_arr)
+                preds = model.predict(img_arr)
+                # feature = model.predict(img_array)
+                # features.append(feature.flatten())
+                preds = decode_predictions(preds, top=10)
+                feature = " ".join([item[1] for item in preds[0]])
+                features.append(feature)
             except Exception as e:
                 print(f"Error processing image: {e}")
-        return np.array(features)
+        return features
 
     def store_features_in_db(images, features, db_name='image_features_db', collection_name='features'):
+        """
+        Stores image features in a MongoDB database.
+        Args:
+            images (list): A list of PIL Image objects to be stored.
+            features (list): A list of features corresponding to each image.
+            db_name (str, optional): The name of the database. Defaults to 'image_features_db'.
+            collection_name (str, optional): The name of the collection. Defaults to 'features'.
+        """
         print(f"Storing features in database: {db_name}, collection: {collection_name}")
         client = MongoClient('localhost', 27017)
         db = client[db_name]
@@ -60,7 +88,7 @@ class ImageProcessor:
                 
                 document = {
                     'image': img_byte_arr,
-                    'feature': feature.tolist()
+                    'feature': feature
                 }
                 collection.insert_one(document)
             except Exception as e:
