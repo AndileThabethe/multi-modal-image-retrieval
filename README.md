@@ -29,26 +29,26 @@ Components:
 9. **Retrieved Images**: The images that the system determines to be the most relevant to the user's query. These 
     are returned to the user interface.
 10. **Kubernetes**: The system is deployed and orchestrated using Kubernetes, a container orchestration platform. 
-11. **Docker/Container Icons**: The containerized nature of the components.
+11. **Docker/Container**: The containerized nature of the components.
 
 Data Flow:
 
-**User Interaction**: The user interacts with the "User Interface" and enters a "User text query".
-**Text Processing**: The "Text Feature Extraction" component converts the query into "Text features".
-**Search API Request**: The "Text features" are sent to the "Search API".
-**Similarity Search**: The "Similarity Search" component compares the query's "Text features" with the 
+1. **User Interaction**: The user interacts with the "User Interface" and enters a "User text query".
+2. **Text Processing**: The "Text Feature Extraction" component converts the query into "Text features".
+3. **Search API Request**: The "Text features" are sent to the "Search API".
+4. **Similarity Search**: The "Similarity Search" component compares the query's "Text features" with the 
     "Image features" stored in "MongoDB".
-**Image Retrieval**: The "Search API" retrieves the most similar "Images" based on the results of the "Similarity Search".
-**Results Display**: The "Retrieved Images" are sent back to the "User Interface" and displayed to the user.
-**Offline Processing:** The "Image Feature Extraction" component, running as a batch process (offline.py), 
+5. **Image Retrieval**: The "Search API" retrieves the most similar "Images" based on the results of the "Similarity Search".
+6. **Results Display**: The "Retrieved Images" are sent back to the "User Interface" and displayed to the user.
+7. **Offline Processing:** The "Image Feature Extraction" component, running as a batch process (offline.py), 
     extracts "Image features" from the raw "Images" and stores them in "MongoDB".
 
 Production Readiness:
 
-**Offline Image Feature Extraction**: The diagram clearly separates the online query processing path from the offline image feature extraction. This is to ensure fast query response times.
-**Vector Database (Implicit)**: The MongoDB is being used in a way that facilitates efficient similarity search, with possiblity of some form of vector indexing.
-**Scalability**: The use of Kubernetes strongly suggests the system is designed to be scalable and handle a large number of queries and images.
-**Containerization**: The Docker icons indicate that each component is packaged in its own container, which improves portability and deployment consistency.
+1. **Offline Image Feature Extraction**: The diagram clearly separates the online query processing path from the offline image feature extraction. This is to ensure fast query response times.
+2. **Vector Database (Implicit)**: The MongoDB is being used in a way that facilitates efficient similarity search, with possiblity of some form of vector indexing.
+3. **Scalability**: The use of Kubernetes strongly suggests the system is designed to be scalable and handle a large number of queries and images.
+4. **Containerization**: The Docker icons indicate that each component is packaged in its own container, which improves portability and deployment consistency.
 
 ### System Architecture Diagram (catering for people with disabilities)
 ![SystemArchitectureDiagram drawio](https://github.com/user-attachments/assets/26e69090-1921-47d5-9d28-7e2efa6fe919)
