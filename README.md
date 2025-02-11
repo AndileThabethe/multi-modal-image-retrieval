@@ -6,7 +6,9 @@ system includes a user-friendly front-end where users can input their queries an
 results.
 
 ### System Architecture Diagram
-![MMRsystemarchitecture drawio](https://github.com/user-attachments/assets/5e35310d-6c3c-4614-ac2d-5196b3542239)
+![FinalSystemArchitecture drawio](https://github.com/user-attachments/assets/8a0736cc-f495-445a-b5e8-9371ee667916)
+
+### System Architecture Diagram (catering for people with disabilities)
 
 ### Setup and Installation Instructions
 
@@ -14,4 +16,4 @@ results.
 
 ### How to Run Tests
 
-## Assumptions Made
+### Assumptions Made
