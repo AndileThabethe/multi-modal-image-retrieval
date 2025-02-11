@@ -1,18 +1,18 @@
-import os
-from sklearn.feature_extraction.text import TfidfVectorizer
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+# import os
+# from sklearn.feature_extraction.text import TfidfVectorizer
+# import matplotlib.pyplot as plt
+# import matplotlib.image as mpimg
 import string
-import nltk
-from nltk.corpus import stopwords
-from sentence_transformers import SentenceTransformer
+# import nltk
+# # from nltk.corpus import stopwords
+# from sentence_transformers import SentenceTransformer
 
 # Download necessary NLTK data (if not already downloaded)
 # nltk.download('stopwords')
 # nltk.download('punkt')
 # nltk.download('punkt_tab')
 
-vectorizer = TfidfVectorizer()
+# vectorizer = TfidfVectorizer()
 
 class TextQueryProcessor:
     """
@@ -47,16 +47,16 @@ class TextQueryProcessor:
     #         print(f"Error in remove_whitespace: {e}")
     #         return text
     
-    def remove_stopwords(text):
-        try:
-            words_to_remove = stopwords.words('english')
-            for word in text:
-                if word not in words_to_remove:
-                    cleaned_doc.append(word)
-            return cleaned_doc
-        except Exception as e:
-            print(f"Error in remove_stopwords: {e}")
-            return text
+    # def remove_stopwords(text):
+    #     try:
+    #         words_to_remove = stopwords.words('english')
+    #         for word in text:
+    #             if word not in words_to_remove:
+    #                 cleaned_doc.append(word)
+    #         return cleaned_doc
+    #     except Exception as e:
+    #         print(f"Error in remove_stopwords: {e}")
+    #         return text
     
     # def get_tokenized_list(doc):
     #     try:
@@ -82,7 +82,7 @@ class TextQueryProcessor:
             query = TextQueryProcessor.remove_punctuation(query)
             # query = TextQueryProcessor.remove_whitespace(query)
             # query = TextQueryProcessor.get_tokenized_list(query)
-            query = TextQueryProcessor.remove_stopwords(query)
+            # query = TextQueryProcessor.remove_stopwords(query)
             # query = TextQueryProcessor.word_stemmer(query)
             # q = []
             # for word in query:
