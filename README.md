@@ -6,7 +6,7 @@ system includes a user-friendly front-end where users can input their queries an
 results.
 
 ### System Architecture Diagram
-![FinalSystemArchitecture drawio](https://github.com/user-attachments/assets/8a0736cc-f495-445a-b5e8-9371ee667916)
+![FinalSystemArchitecture drawio](https://github.com/user-attachments/assets/9b78b3c5-8991-4776-90b5-775072024c45)
 
 ### System Architecture Diagram (catering for people with disabilities)
 
