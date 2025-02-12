@@ -66,6 +66,7 @@ Enhancements to cater for people with disabilities:
 - install MongoDB, mongosh(optional)
 - install IDE that supports Python (e.g Visual Studio Code)
 - Python 3.12
+- requirements.txt file to install required libraries/packages (_pip install -r requirements.txt_ install in terminal)
 
 ### How to Run The System
 - Run the offline.py file to process the images and store them in the MongoDB
