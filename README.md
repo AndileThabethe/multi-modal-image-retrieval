@@ -15,14 +15,14 @@ Components:
 1. **User Interface**: This is where the user interacts with the system. It is a web page 
    that allows text input and displays results.
    ** User Text Query**: The text query entered by the user, describing the image they are looking for.
-2. **Text Feature Extraction**: This component processes the user's text query and converts it into a 
+2. **Text Feature Extraction** (text_feature_extractor.py): This component processes the user's text query and converts it into a 
    set of numerical features (a vector). The output is "Text features".
-3. **Search API**: This is the core component that receives the text features and uses them to search 
+3. **Search API** (run.py): This is the core component that receives the text features and uses them to search 
    the image database. It implements a similarity search algorithm.
-4. **Similarity Search**: This component compares the "Text features" from the query with "Image features" 
+4. **Similarity Search** (similarity_search.py): This component compares the "Text features" from the query with "Image features" 
     stored in the database to find the most similar images.
 5. **Image Features**: Numerical representations of the images, pre-calculated and stored in the database. 
-6. **Image Feature Extraction**: This component is responsible for processing the raw images (in offline.py as indicated) 
+6. **Image Feature Extraction** (image_feature_extractor.py): This component is responsible for processing the raw images (in offline.py as indicated) 
     and generating the "Image features" that are stored in the database.
 7. **MongoDB**: The database used to store the "Image features" and potentially other metadata about the images.
 8. **Images**: The actual image files. The diagram shows them as being accessed by the "Image Feature Extraction" component.
@@ -54,18 +54,25 @@ Production Readiness:
 ![SystemArchitectureDiagram drawio](https://github.com/user-attachments/assets/26e69090-1921-47d5-9d28-7e2efa6fe919)
 
 Enhancements to cater for people with disabilities:
-- Speech-to-Text input to query
+- Voice search capability
+- Keyboard navigation
 - Image input to query
-- Dyslexie, Opendyslexic, Gill Dyslexic, Read Regular, Lexia Readable, or Sylexiad font option 
+- Customisable user interface e.g Dyslexie, Opendyslexic, Gill Dyslexic, Read Regular, Lexia Readable, or Sylexiad font option for people with Dyslexia
+- Make application screen reader compatible
+- Alternative text and descriptions that convey the essential information and context of the image
+- Visual descriptions and audio narration
 
 ### Setup and Installation Instructions
 - install MongoDB, mongosh(optional)
 - install IDE that supports Python (e.g Visual Studio Code)
+- Python 3.12
 
 ### How to Run The System
 - Run the offline.py file to process the images and store them in the MongoDB
 - Run the run.py file to run the application
 
 ### How to Run Tests
+- Currently the system does not have unit/integration or regression tests. Manual tests done can be see in the modelselection.ipynb file.
 
 ### Assumptions Made
+- The data is complete and are images.
