@@ -1,5 +1,7 @@
 # Multi Modal Retrieval System
 
+**NB: The system does take a while to boot up, go grab a coffee. This is due to a trade off bettween speed and accuracy. There is room to improve the system.**
+
 This project implements a multi-modal image retrieval system that takes a user query (in text
 describing an image) and returns the top-K matching images from a provided dataset. The
 system includes a user-friendly front-end where users can input their queries and see the
