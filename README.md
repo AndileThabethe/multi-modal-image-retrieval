@@ -73,7 +73,7 @@ Enhancements to cater for people with disabilities:
 - Run the run.py file to run the application
 
 ### How to Run Tests
-- Currently the system does not have unit/integration or regression tests. Manual tests done can be see in the modelselection.ipynb file.
+- Currently the system does not have unit/integration or regression tests. Manual tests done can be seen in the modelselection.ipynb file.
 
 ### Assumptions Made
 - The data is complete and are images.
