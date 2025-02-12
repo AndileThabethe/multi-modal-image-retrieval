@@ -12,11 +12,20 @@ app.config['SECRET_KEY'] = 'Hello, world'
 class SearchBar(FlaskForm):
     search = StringField("Lookup an image", [DataRequired()])
     submit = SubmitField('Search')
-    # num = IntegerField("Lookup an image")
-
 
 @app.route("/Home", methods=['GET', 'POST'])
 def HomePage():
+    """
+    Renders the home page with a search bar and displays images based on the search query.
+    This function handles the following:
+    - Initializes the search variable and the search form.
+    - Validates the search form submission.
+    - Clears the search form input after submission.
+    - Queries for images based on the search term if provided.
+    - Renders the home page template with the search term, images, and search form.
+    Returns:
+        str: The rendered HTML template for the home page.
+    """
     search = None
     form = SearchBar()
     images = None
