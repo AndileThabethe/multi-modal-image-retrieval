@@ -1,7 +1,5 @@
 # Multi Modal Retrieval System
 
-**NB: The system does take a while to boot up, go grab a coffee. This is due to a trade off bettween speed and accuracy. There is room to improve the system.**
-
 This project implements a multi-modal image retrieval system that takes a user query (in text
 describing an image) and returns the top-K matching images from a provided dataset. The
 system includes a user-friendly front-end where users can input their queries and see the
@@ -16,7 +14,7 @@ Components:
 
 1. **User Interface**: This is where the user interacts with the system. It is a web page 
    that allows text input and displays results.
-   ** User Text Query**: The text query entered by the user, describing the image they are looking for.
+2. **User Text Query**: The text query entered by the user, describing the image they are looking for.
 2. **Text Feature Extraction** (text_feature_extractor.py): This component processes the user's text query and converts it into a 
    set of numerical features (a vector). The output is "Text features".
 3. **Search API** (run.py): This is the core component that receives the text features and uses them to search 
@@ -75,7 +73,7 @@ Enhancements to cater for people with disabilities:
 - Run the run.py file to run the application
 
 ### How to Run Tests
-- Currently the system does not have unit/integration or regression tests. Manual tests done can be seen in the modelselection.ipynb file.
+- To run tests, in terminal type: python -m unittest discover -s tests -p '*_test.py' 
 
 ### Assumptions Made
 - The data is complete and are images.
