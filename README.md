@@ -73,7 +73,7 @@ Enhancements to cater for people with disabilities:
 - Run the run.py file to run the application
 
 ### How to Run Tests
-- To run tests, in terminal type: python -m unittest discover -s tests -p '*_test.py' 
+- To run tests, in terminal type command _python -m unittest discover -s tests -p '*_test.py'_
 
 ### Assumptions Made
 - The data is complete and are images.
