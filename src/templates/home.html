@@ -7,11 +7,10 @@
 {% block content %}
 <form method="POST" style="text-align: center;" onsubmit="showSpinner()">
     <br>
-    <h1 style="font-size: 36px; font-weight: bold; text-align: center;">Image Search Engine</h1>
+    <h1 style="font-size: 36px; font-weight: bold; text-align: center;">Multimodal Image Retrieval</h1>
     <br>
     <br>
     {{ form.hidden_tag() }}
-    <!-- {{ form.search.label(class="form-label") }} -->
     {{ form.search(class="form-control") }}
     <br>
     <br>
@@ -29,20 +28,19 @@
     <p align="center"></p>
 {% endif %}
 
-<!-- Spinner HTML -->
+
 <div id="loading-spinner" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8);">
     <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
 
-<!-- JavaScript to Show/Hide Spinner -->
+
 <script>
     function showSpinner() {
         document.getElementById('loading-spinner').style.display = 'flex';
     }
 
-    // Hide spinner when the page is fully loaded
     window.addEventListener('load', function() {
         document.getElementById('loading-spinner').style.display = 'none';
     });

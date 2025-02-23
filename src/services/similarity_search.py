@@ -1,11 +1,14 @@
+import torch
 from services.text_feature_extractor import TextQueryProcessor as text_processor
 from pymongo import MongoClient
 from PIL import Image
 import base64
 from io import BytesIO
 import io
+import sys
 
 from sentence_transformers import SentenceTransformer, util
+from datetime import datetime
 
 model = SentenceTransformer('all-mpnet-base-v2')
 
@@ -13,7 +16,7 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["image_features_db"]
 collection = db["features"]
 
-def semantic_similarity(text1, text2):
+def semantic_similarity(text, embedding):
     """
     Computes the semantic similarity between two texts using pre-trained embeddings.
     Args:
@@ -22,9 +25,8 @@ def semantic_similarity(text1, text2):
     Returns:
         float: The cosine similarity score between the embeddings of the two texts.
     """
-    
-    embeddings1 = model.encode(text1, convert_to_tensor=True)
-    embeddings2 = model.encode(text2, convert_to_tensor=True)
+    embeddings1 = model.encode(text, convert_to_tensor=True)
+    embeddings2 = torch.tensor(embedding)
 
     similarity = util.pytorch_cos_sim(embeddings1, embeddings2)
     return similarity.item()
@@ -57,9 +59,12 @@ def data_query(text_prompt):
     similarity_dict = {}
     image_collection = db["features"].find()
 
+    print("Calculating semantic similarity scores...", sys.stderr)
+    print(f"Start Timestamp: {datetime.now()}", sys.stderr)
     for image in image_collection:
-        similarity = semantic_similarity(query, image['feature'])
+        similarity = semantic_similarity(query, image['embeddings'])
         similarity_dict[image['_id']] = similarity
+    print(f"End Timestamp: {datetime.now()}", sys.stderr)
 
     K = 5
     sorted_similarities = sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True)
@@ -70,8 +75,3 @@ def data_query(text_prompt):
 
     im = [image_to_base64(image) for image in images]
     return im
-
-if __name__ == "__main__":
-    text_prompt = "A beautiful sunset"
-    x = data_query(text_prompt)
-    print("Done")

@@ -1,4 +1,8 @@
 import string
+import nltk
+from nltk.corpus import stopwords
+
+words_to_remove = stopwords.words('english')
 
 class TextQueryProcessor:
     """
@@ -35,7 +39,6 @@ class TextQueryProcessor:
         
     def remove_stopwords(text):
         try:
-            words_to_remove = stopwords.words('english')
             cleaned_doc = []
             for word in text:
                 if word not in words_to_remove:
@@ -67,6 +70,7 @@ class TextQueryProcessor:
         try:
             query = query.lower()
             query = TextQueryProcessor.remove_punctuation(query)
+            query = TextQueryProcessor.remove_stopwords(query)
             return query
         except Exception as e:
             print(f"Error in preprocessing_query: {e}")

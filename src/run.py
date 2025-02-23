@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SearchField, SubmitField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from services.similarity_search import data_query
 import webbrowser
