@@ -71,8 +71,11 @@ class ImageProcessor:
         Args:
             images (list): A list of PIL Image objects to be stored.
             features (list): A list of features corresponding to each image.
+            embeddings (list): A list of embeddings corresponding to each image.
             db_name (str, optional): The name of the database. Defaults to 'image_features_db'.
             collection_name (str, optional): The name of the collection. Defaults to 'features'.
+        Returns:
+            None
         """
         print(f"Storing features in database: {db_name}, collection: {collection_name}")
         client = MongoClient('localhost', 27017)

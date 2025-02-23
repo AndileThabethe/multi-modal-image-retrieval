@@ -49,85 +49,53 @@ def image_to_base64(image):
     image.save(buffered, format="JPEG")
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
-# def data_query(text_prompt):
-#     """
-#     Queries the database for images similar to the given text prompt.
-#     Args:
-#         text_prompt (str): The text prompt to query for similar images.
-#     Returns:
-#         list: A list of base64 encoded images that are most similar to the text prompt.
-#     """
-#     query = f"{text_prompt}"
-#     text_features = text_processor.preprocessing_text(query)
-
-#     similarity_dict = {}
-#     image_collection = db["features"].find()
-
-#     print("Calculating semantic similarity scores...", sys.stderr)
-#     print(f"Start Timestamp: {datetime.now()}", sys.stderr)
-#     for image in image_collection:
-#         similarity = semantic_similarity(query, image['embeddings'])
-#         similarity_dict[image['_id']] = similarity
-#     print(f"End Timestamp: {datetime.now()}", sys.stderr)
-
-#     K = 5
-#     sorted_similarities = sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True)
-#     nearest_neighbors = sorted_similarities[:K]
-#     image_data = [collection.find_one({"_id": neighbor[0]}) for neighbor in nearest_neighbors]
-#     images = [Image.open(io.BytesIO(image_data['image'])) for image_data in image_data]
-
-
-#     im = [image_to_base64(image) for image in images]
-#     return im
-
 def data_query(text_prompt, K=5):
+    """
+    Queries the database for images similar to the given text prompt.
+    Args:
+        text_prompt (str): The text prompt to query the database with.
+        K (int, optional): The number of top similar images to retrieve. Defaults to 5.
+    Returns:
+        list: A list of base64 encoded images sorted by similarity in descending order.
+    Raises:
+        Warning: If any image in the database is missing embeddings or image data.
+        Exception: If there is an error decoding an image.
+    Notes:
+        - The function retrieves image embeddings from the database and computes their similarity to the query embedding.
+        - It uses a pre-trained model to encode the text prompt into an embedding.
+        - The function returns the top K most similar images in base64 format.
+    """
     query = f"{text_prompt}"
 
-    print("Calculating semantic similarity scores...", sys.stderr)
-    print(f"Start Timestamp: {datetime.now()}", sys.stderr)
-
-    # 1. Efficient Retrieval of Embeddings and IDs (optimized):
-    image_cursor = db["features"].find({}, {"embeddings": 1, "_id": 1})  # Use cursor for large datasets
-
+    image_cursor = db["features"].find({}, {"embeddings": 1, "_id": 1})  
     all_embeddings = []
     image_ids = []
 
-    for image in image_cursor: # Efficient iteration for large datasets
-        embedding = image.get("embeddings") # Handle potential missing embeddings
+    for image in image_cursor: 
+        embedding = image.get("embeddings")
         if embedding is None:
             print(f"Warning: Missing embedding for image ID: {image['_id']}", sys.stderr)
-            continue # Skip image if embedding is missing
-
+            continue 
         all_embeddings.append(np.array(embedding))
         image_ids.append(image['_id'])
 
-    if not all_embeddings: # Handle case where no embeddings are found
+    if not all_embeddings: 
         print("Warning: No embeddings found in the database.", sys.stderr)
         return []
 
-    # 2. Convert to Tensor (optimized):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # Define device HERE
-    embeddings_tensor = torch.tensor(np.stack(all_embeddings), dtype=torch.float32).to(device) # Combine stack and to(device)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  
+    embeddings_tensor = torch.tensor(np.stack(all_embeddings), dtype=torch.float32).to(device) 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    # 3. Encode Query (only once) and move to device:
-    query_embedding = model.encode(query, convert_to_tensor=True).to(device).float() # Combine operations
-
-    # 4. Batch Similarity Calculation (optimized):
+    query_embedding = model.encode(query, convert_to_tensor=True).to(device).float() 
+    
     similarities = util.pytorch_cos_sim(query_embedding, embeddings_tensor)
+    top_k_indices = torch.topk(similarities, K)[1][0].cpu().numpy() 
 
-    # 5. Get Top K Indices (optimized):
-    top_k_indices = torch.topk(similarities, K)[1][0].cpu().numpy()  # Get indices directly
-
-    # 6. Efficient Retrieval of Image Data (using $in operator):
-    neighbor_ids = [image_ids[i] for i in top_k_indices] # Use indices to get IDs
+    neighbor_ids = [image_ids[i] for i in top_k_indices] 
     image_data = list(collection.find({"_id": {"$in": neighbor_ids}}))
 
-    print(f"End Timestamp: {datetime.now()}", sys.stderr)
-
-    # 7. Open Images and Convert to Base64 (optimized):
     images = []
-    for image_doc in image_data: # Handle missing images
+    for image_doc in image_data: 
         image_bytes = image_doc.get("image")
         if image_bytes is None:
             print(f"Warning: Missing image data for ID: {image_doc['_id']}", sys.stderr)

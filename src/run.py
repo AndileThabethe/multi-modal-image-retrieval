@@ -5,8 +5,6 @@ from wtforms.validators import DataRequired
 from services.similarity_search import data_query
 import webbrowser
 import os
-import sys
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Hello, world'
